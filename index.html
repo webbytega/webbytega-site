@@ -837,30 +837,30 @@ var elementorFrontendConfig = {"environmentMode":{"edit":false,"wpPreview":false
 <script src="./wp-content/plugins/elementor/assets/js/frontend.min.js?ver=3.30.3" id="elementor-frontend-js"></script>
 <script src="./wp-content/plugins/elementor/assets/lib/jquery-numerator/jquery-numerator.min.js?ver=0.2.1" id="jquery-numerator-js"></script>
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const counters = document.querySelectorAll('.elementor-counter-number');
+	document.addEventListener("DOMContentLoaded", function () {
+			const counters = document.querySelectorAll('.elementor-counter-number');
 
-    counters.forEach(counter => {
-      const target = +counter.getAttribute('data-to-value') || 0;
-      const duration = +counter.getAttribute('data-duration') || 2000;
-      const from = +counter.getAttribute('data-from-value') || 0;
-      const delimiter = counter.getAttribute('data-delimiter') || '';
-      
-      let current = from;
-      const increment = Math.ceil(target / (duration / 20));
+			counters.forEach(counter => {
+				const target = +counter.getAttribute('data-to-value') || 0;
+				const duration = +counter.getAttribute('data-duration') || 2000;
+				const from = +counter.getAttribute('data-from-value') || 0;
+				const delimiter = counter.getAttribute('data-delimiter') || '';
 
-      const update = () => {
-        current += increment;
-        if (current >= target) {
-          current = target;
-          clearInterval(timer);
-        }
-        counter.textContent = delimiter ? current.toLocaleString() : current;
-      };
+				let current = from;
+				const increment = Math.ceil(target / (duration / 20));
 
-      const timer = setInterval(update, 20);
-    });
-  });
+				const update = () => {
+					current += increment;
+					if (current >= target) {
+						current = target;
+						clearInterval(timer);
+					}
+					counter.textContent = delimiter ? current.toLocaleString() : current;
+				};
+
+				const timer = setInterval(update, 20);
+			});
+		});
 </script>
 </body>
 </html><!-- Page supported by LiteSpeed Cache 7.3 on 2025-07-26 15:20:26 -->
