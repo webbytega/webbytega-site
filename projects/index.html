@@ -447,23 +447,52 @@ var elementorFrontendConfig = {"environmentMode":{"edit":false,"wpPreview":false
 </script>
 <script src="./../wp-content/plugins/elementor/assets/js/frontend.min.js?ver=3.30.3" id="elementor-frontend-js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  // Make menu links navigate
-  document.querySelectorAll('.ct-menu-mobile a').forEach(link => {
-    link.addEventListener('click', function(e) {
-      e.preventDefault(); // stop broken theme behavior
-      window.location.href = this.href; // navigate manually
+document.addEventListener("DOMContentLoaded", function () {
+  const burger = document.querySelector('[data-toggle-panel="#offcanvas"]');
+  const panel = document.querySelector("#offcanvas");
+  const closeBtn = panel?.querySelector(".ct-toggle-close");
+  const menuLinks = panel?.querySelectorAll("a");
+
+  if (!burger || !panel) return;
+
+  function openMenu() {
+    panel.removeAttribute("inert");
+    panel.style.transform = "translateX(0)";
+    panel.style.opacity = "1";
+    panel.style.pointerEvents = "auto";
+  }
+
+  function closeMenu() {
+    panel.setAttribute("inert", "");
+    panel.style.transform = "";
+    panel.style.opacity = "";
+    panel.style.pointerEvents = "";
+  }
+
+  burger.addEventListener("click", (e) => {
+    e.preventDefault();
+    openMenu();
+  });
+
+  closeBtn?.addEventListener("click", closeMenu);
+
+  menuLinks?.forEach(link => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      const href = link.getAttribute("href");
+      closeMenu();
+      setTimeout(() => {
+        window.location.href = href;
+      }, 300);
     });
   });
 
-  // Optional: close menu when clicking outside
-  const menu = document.querySelector('.ct-menu-mobile');
-  const burger = document.querySelector('.ct-header-trigger');
+  panel.addEventListener("click", (e) => {
+    if (e.target === panel) closeMenu();
+  });
 
-  document.addEventListener('click', (e) => {
-    if (menu.classList.contains('active') && !menu.contains(e.target) && !burger.contains(e.target)) {
-      menu.classList.remove('active');
-    }
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeMenu();
   });
 });
 </script>
