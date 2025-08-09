@@ -876,26 +876,40 @@ var elementorFrontendConfig = {"environmentMode":{"edit":false,"wpPreview":false
   });
 </script>
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  // Make menu links navigate
-  document.querySelectorAll('.ct-menu-mobile a').forEach(link => {
-    link.addEventListener('click', function(e) {
+document.addEventListener("DOMContentLoaded", function () {
+  const burger = document.querySelector(".ct-header-trigger");
+  const mobileMenu = document.querySelector(".mobile-menu");
+  const menuLinks = document.querySelectorAll(".mobile-menu a");
+
+  if (!burger || !mobileMenu) return; // if menu elements don't exist
+
+  // Toggle menu on burger click
+  burger.addEventListener("click", function () {
+    mobileMenu.classList.toggle("active");
+  });
+
+  // Make links actually navigate + close menu
+  menuLinks.forEach(link => {
+    link.addEventListener("click", function (e) {
       e.preventDefault(); // stop broken theme behavior
       window.location.href = this.href; // navigate manually
+      mobileMenu.classList.remove("active");
     });
   });
 
-  // Optional: close menu when clicking outside
-  const menu = document.querySelector('.ct-menu-mobile');
-  const burger = document.querySelector('.ct-header-trigger');
-
-  document.addEventListener('click', (e) => {
-    if (menu.classList.contains('active') && !menu.contains(e.target) && !burger.contains(e.target)) {
-      menu.classList.remove('active');
+  // Close menu when clicking outside
+  document.addEventListener("click", function (e) {
+    if (
+      mobileMenu.classList.contains("active") &&
+      !mobileMenu.contains(e.target) &&
+      !burger.contains(e.target)
+    ) {
+      mobileMenu.classList.remove("active");
     }
   });
 });
 </script>
+
 
 </body>
 </html><!-- Page supported by LiteSpeed Cache 7.3 on 2025-07-26 15:20:26 -->
